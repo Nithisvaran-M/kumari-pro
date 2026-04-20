@@ -1,89 +1,119 @@
-# 🛡️ KUMARI PRO
+🛡️ KUMARI PRO
+Ultimate Cyber Security Suite
+Professional All-in-One Security Platform
+Live Website: https://nithisvaran-m.github.io/kumari-pro/
 
-## Ultimate Cyber Security Suite
+📌 Overview
+KUMARI PRO is a powerful, client-side cyber security toolkit. It allows you to analyze files, decode encrypted text, extract hidden strings, and scan for malware signatures directly in your browser. Your files never leave your computer.
 
-### Professional All-in-One Security Platform
-
----
-
-## 📌 Overview
-
-KUMARI PRO is a professional, all-in-one cyber security analysis platform that combines four powerful tools into a single, intuitive interface. Built for security researchers, CTF players, forensic analysts, and privacy-conscious users.
-
-**No file uploads. No data collection. 100 percent client-side.**
-
----
-
-## ✨ Features
-
-### 1. 📸 Deep Metadata Viewer
-
+✨ Core Features
+1. 📸 Deep Metadata Viewer
 Extract every piece of hidden information from your files:
 
-- **Image Metadata** - Camera model, ISO, shutter speed, focal length, aperture
-- **GPS Location Data** - Latitude, longitude, altitude from photos
-- **PDF Properties** - Author, creator, producer, page count, creation date
-- **Document Metadata** - File size, type, modification date, software used
-- **Magic Bytes Detection** - Identifies real file type regardless of extension
-- **Hidden Strings** - Extracts readable text hidden inside binary files
+Image Metadata (EXIF): Camera model, ISO, shutter speed, GPS location
 
-### 2. 🔐 CyberChef Encryption Suite
+Document Properties: PDF metadata, author, creation software
 
-AI-powered encryption detection and decoding:
+File Analysis: Magic bytes detection, file signature verification
 
-- **Auto Detection** - Automatically identifies Base64, Hex, and ROT13 encoding
-- **Interactive Badges** - Click detected encryption type to apply decryption
-- **20 Encoding Formats** - Base64, Hex, ROT13, ROT47, Binary, URL, Atbash, Caesar
-- **Real-time Analysis** - Detection updates as you type
-- **One-click Operations** - Encode or decode with single button clicks
+Hidden Data: Extracts readable strings embedded within binary files
 
-### 3. 📝 Strings Extractor with GREP
+2. 🔐 CyberChef Encryption Suite
+An AI-powered toolkit for decoding and encoding text:
 
-Extract and search through all readable text in any file:
+Auto Detection: Automatically identifies Base64, Hex, and ROT13 encoding
 
-- **Full String Extraction** - Finds every readable string of 4+ characters
-- **GREP Search** - Powerful regex-based searching
-- **Real-time Filtering** - Search results update as you type
-- **Match Counter** - Shows number of matches found
-- **Copy Results** - Export extracted strings to clipboard
+Interactive Badges: Click on a detected encryption type to instantly decode
 
-### 4. 🦠 Malware Signature Scanner
+20+ Formats: Supports Base64, Hex, ROT13, ROT47, Binary, URL, Atbash, Caesar Cipher
 
-Real-time malware detection with 30+ signatures:
+Real-time Analysis: Detection updates as you type or paste text
 
-- **Process Injection Detection** - Identifies CreateRemoteThread patterns
-- **Ransomware Indicators** - Detects encryption routines
-- **Reverse Shell Signatures** - Finds bind and reverse shell code
-- **Keylogger Patterns** - Identifies SetWindowsHookEx usage
-- **Meterpreter Payloads** - Detects Metasploit frameworks
-- **Severity Levels** - CRITICAL, HIGH severity classification
-- **Instant Alerts** - Immediate notification on threat detection
+3. 📝 Strings Extractor with GREP
+Extract and search through all readable text within any file:
 
----
+Full Extraction: Finds every readable string of 4 or more characters
 
-## 🎯 How It Works
+GREP Search: Use regular expressions to search through extracted strings
 
-### Metadata Viewer
-Upload any file - image, PDF, document, or archive. The tool reads the file locally in your browser and displays every piece of metadata hidden inside. No data ever leaves your computer.
+Real-time Filtering: See matching results update instantly
 
-### CyberChef
-Paste any encoded text. The AI engine automatically detects the encryption type and shows clickable badges. Click the badge to decode instantly. Manual encode and decode buttons available for all formats.
+Copy Results: Export all extracted strings to your clipboard
 
-### Strings and GREP
-Upload any binary or text file. The tool extracts every readable string of 4 or more characters. Use the GREP bar to search with regular expressions. Results highlight in real-time.
+4. 🦠 Malware Signature Scanner
+A real-time, signature-based malware scanner:
 
-### Malware Scanner
-Upload any suspicious file. The scanner checks against 30+ malware signatures including process injection, ransomware patterns, reverse shells, and keyloggers. Results show severity levels for each detection.
+30+ Signatures: Detects process injection, ransomware indicators, reverse shell patterns, keyloggers, and Meterpreter payloads
 
----
+Severity Levels: Alerts are classified as CRITICAL or HIGH
 
-## 📦 Installation
+Instant Alerts: Immediate notification upon threat detection
 
-### Local Setup
+🚀 How to Use
+Visit the Website: Open https://nithisvaran-m.github.io/kumari-pro/
 
-Open your terminal and run:
+Choose a Tool: Select from Metadata Viewer, CyberChef, Strings & GREP, or Malware Scanner.
 
-```bash
-git clone https://github.com/YOUR_USERNAME/kumari-pro.git
-cd kumari-pro
-open index.html
+Upload or Paste:
+
+For Metadata or Strings: Drag and drop your file.
+
+For CyberChef: Paste your encoded text into the INPUT box.
+
+For Malware Scanner: Upload the suspicious file.
+
+Get Results: Analysis results appear instantly in the output panels.
+
+🔒 Privacy & Security
+Zero File Uploads: All processing is done locally in your browser. No data is ever sent to a server.
+
+No Data Collection: This platform contains no analytics, trackers, or external data collection.
+
+Open Source: The code is fully transparent and auditable.
+
+🛠️ Technology Stack
+HTML5, CSS3, JavaScript ES6
+
+EXIF.js for image metadata
+
+PDF.js for PDF parsing
+
+JSZip for Office document analysis
+
+Font Awesome & Google Fonts for icons and typography
+
+📄 License
+Distributed under the MIT License. See the LICENSE file in the GitHub repository for more information.
+
+Copyright (c) 2024 Nithisvaran M
+
+👨‍💻 Author
+Nithisvaran M
+
+GitHub: nithisvaran-m
+
+Live Project: https://nithisvaran-m.github.io/kumari-pro/
+
+🤝 Contributing
+Contributions, issues, and feature requests are welcome!
+
+Fork the project repository
+
+Create your feature branch (git checkout -b feature/AmazingFeature)
+
+Commit your changes (git commit -m 'Add some AmazingFeature')
+
+Push to the branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
+
+⭐ Support the Project
+If this tool helps you, please consider giving the repository a star on GitHub and sharing it with others.
+
+🙏 Acknowledgments
+The open-source libraries that make this possible (EXIF.js, PDF.js, JSZip)
+
+Font Awesome for the icon set
+
+The entire cybersecurity community for their constant learning and sharing
+
