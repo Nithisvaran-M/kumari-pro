@@ -26,30 +26,7 @@ No installation required. No file uploads to any server. Everything runs locally
 
 ---
 
-## 📸 Features Overview
 
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                     │
-│   📸 Deep Metadata Viewer          🔐 AI CyberChef Suite                           │
-│   ┌─────────────────────┐          ┌─────────────────────┐                         │
-│   │ • EXIF extraction    │          │ • Auto encryption   │                         │
-│   │ • GPS coordinates    │          │   detection         │                         │
-│   │ • PDF properties     │          │ • Base64, Hex, ROT13│                         │
-│   │ • Magic bytes        │          │ • Binary, URL,      │                         │
-│   │ • Hidden strings     │          │   Atbash, Caesar    │                         │
-│   └─────────────────────┘          └─────────────────────┘                         │
-│                                                                                     │
-│   📝 Strings & GREP                 🦠 Malware Scanner                             │
-│   ┌─────────────────────┐          ┌─────────────────────┐                         │
-│   │ • Full extraction    │          │ • 30+ signatures    │                         │
-│   │ • Regex GREP search  │          │ • Process injection │                         │
-│   │ • Real-time filter   │          │ • Ransomware detect │                         │
-│   │ • Copy to clipboard  │          │ • Reverse shell     │                         │
-│   └─────────────────────┘          └─────────────────────┘                         │
-│                                                                                     │
-└─────────────────────────────────────────────────────────────────────────────────────┘
-
----
 
 ## ✨ Core Features
 
