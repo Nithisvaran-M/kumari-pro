@@ -1,119 +1,124 @@
-🛡️ KUMARI PRO
-Ultimate Cyber Security Suite
-Professional All-in-One Security Platform
-Live Website: https://nithisvaran-m.github.io/kumari-pro/
+# 🛡️ KUMARI
 
-📌 Overview
-KUMARI PRO is a powerful, client-side cyber security toolkit. It allows you to analyze files, decode encrypted text, extract hidden strings, and scan for malware signatures directly in your browser. Your files never leave your computer.
+## Ultimate Cyber Security Suite
 
-✨ Core Features
-1. 📸 Deep Metadata Viewer
+
+ ██╗  ██╗██╗   ██╗███╗   ███╗ █████╗ ██████╗ ██╗
+ ██║ ██╔╝██║   ██║████╗ ████║██╔══██╗██╔══██╗██║
+ █████╔╝ ██║   ██║██╔████╔██║███████║██████╔╝██║
+ ██╔═██╗ ██║   ██║██║╚██╔╝██║██╔══██║██╔══██╗██║
+ ██║  ██╗╚██████╔╝██║ ╚═╝ ██║██║  ██║██║  ██║██╗
+ ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝
+
+### Professional Cyber Security Suite • v2.0.0
+
+**Deep Metadata Extraction | AI-Powered CyberChef | Malware Scanner | Strings & GREP**
+
+---
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Pages](https://img.shields.io/badge/Hosted-GitHub%20Pages-blue)](https://pages.github.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)](https://javascript.com)
+[![Version](https://img.shields.io/badge/version-2.0.0-green)]()
+
+---
+
+## 🚀 Quick Start
+
+**Live Website:** [https://nithisvaran-m.github.io/kumari-pro/](https://nithisvaran-m.github.io/kumari-pro/)
+
+No installation required. No file uploads to any server. Everything runs locally in your browser.
+
+---
+
+## 📸 Features Overview
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                     │
+│   📸 Deep Metadata Viewer          🔐 AI CyberChef Suite                           │
+│   ┌─────────────────────┐          ┌─────────────────────┐                         │
+│   │ • EXIF extraction    │          │ • Auto encryption   │                         │
+│   │ • GPS coordinates    │          │   detection         │                         │
+│   │ • PDF properties     │          │ • Base64, Hex, ROT13│                         │
+│   │ • Magic bytes        │          │ • Binary, URL,      │                         │
+│   │ • Hidden strings     │          │   Atbash, Caesar    │                         │
+│   └─────────────────────┘          └─────────────────────┘                         │
+│                                                                                     │
+│   📝 Strings & GREP                 🦠 Malware Scanner                             │
+│   ┌─────────────────────┐          ┌─────────────────────┐                         │
+│   │ • Full extraction    │          │ • 30+ signatures    │                         │
+│   │ • Regex GREP search  │          │ • Process injection │                         │
+│   │ • Real-time filter   │          │ • Ransomware detect │                         │
+│   │ • Copy to clipboard  │          │ • Reverse shell     │                         │
+│   └─────────────────────┘          └─────────────────────┘                         │
+│                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+---
+
+## ✨ Core Features
+
+### 1. 📸 Deep Metadata Viewer
+
 Extract every piece of hidden information from your files:
 
-Image Metadata (EXIF): Camera model, ISO, shutter speed, GPS location
+| Category | Information Extracted |
+|----------|----------------------|
+| **Image Metadata** | Camera model, ISO, shutter speed, focal length, aperture, flash |
+| **GPS Location** | Latitude, longitude, altitude, timestamp |
+| **PDF Properties** | Author, creator, producer, page count, creation date |
+| **Document Info** | File size, type, modification date, software used |
+| **Magic Bytes** | Identifies real file type regardless of extension |
+| **Hidden Strings** | Extracts readable text hidden inside binary files |
 
-Document Properties: PDF metadata, author, creation software
+### 2. 🔐 CyberChef Encryption Suite
 
-File Analysis: Magic bytes detection, file signature verification
+AI-powered encryption detection and decoding:
 
-Hidden Data: Extracts readable strings embedded within binary files
+| Feature | Description |
+|---------|-------------|
+| **Auto Detection** | Automatically identifies Base64, Hex, and ROT13 encoding |
+| **Interactive Badges** | Click detected encryption type to apply decryption instantly |
+| **20+ Formats** | Base64, Hex, ROT13, ROT47, Binary, URL, Atbash, Caesar Cipher |
+| **Real-time Analysis** | Detection updates as you type or paste text |
+| **One-click Operations** | Encode or decode with single button clicks |
 
-2. 🔐 CyberChef Encryption Suite
-An AI-powered toolkit for decoding and encoding text:
+### 3. 📝 Strings Extractor with GREP
 
-Auto Detection: Automatically identifies Base64, Hex, and ROT13 encoding
+Extract and search through all readable text in any file:
 
-Interactive Badges: Click on a detected encryption type to instantly decode
+| Feature | Description |
+|---------|-------------|
+| **Full Extraction** | Finds every readable string of 4 or more characters |
+| **GREP Search** | Powerful regex-based searching through extracted strings |
+| **Real-time Filtering** | Search results update as you type |
+| **Match Counter** | Shows number of matches found instantly |
+| **Copy Results** | Export all extracted strings to clipboard |
 
-20+ Formats: Supports Base64, Hex, ROT13, ROT47, Binary, URL, Atbash, Caesar Cipher
+### 4. 🦠 Malware Signature Scanner
 
-Real-time Analysis: Detection updates as you type or paste text
+Real-time malware detection with 30+ signatures:
 
-3. 📝 Strings Extractor with GREP
-Extract and search through all readable text within any file:
+| Severity | Signatures Detected |
+|----------|---------------------|
+| **CRITICAL** | Process Injection, Meterpreter Payload, Ransomware, Reverse Shell |
+| **HIGH** | Keylogger Installation, Remote Memory Allocation, Encoded PowerShell |
+| **MEDIUM** | Suspicious Patterns, Obfuscated Code, Registry Modifications |
 
-Full Extraction: Finds every readable string of 4 or more characters
+---
 
-GREP Search: Use regular expressions to search through extracted strings
+## 🛠 Installation
 
-Real-time Filtering: See matching results update instantly
+### Local Setup
 
-Copy Results: Export all extracted strings to your clipboard
+```bash
+# Clone the repository
+git clone https://github.com/nithisvaran-m/kumari-pro.git
 
-4. 🦠 Malware Signature Scanner
-A real-time, signature-based malware scanner:
+# Navigate to project
+cd kumari-pro
 
-30+ Signatures: Detects process injection, ransomware indicators, reverse shell patterns, keyloggers, and Meterpreter payloads
-
-Severity Levels: Alerts are classified as CRITICAL or HIGH
-
-Instant Alerts: Immediate notification upon threat detection
-
-🚀 How to Use
-Visit the Website: Open https://nithisvaran-m.github.io/kumari-pro/
-
-Choose a Tool: Select from Metadata Viewer, CyberChef, Strings & GREP, or Malware Scanner.
-
-Upload or Paste:
-
-For Metadata or Strings: Drag and drop your file.
-
-For CyberChef: Paste your encoded text into the INPUT box.
-
-For Malware Scanner: Upload the suspicious file.
-
-Get Results: Analysis results appear instantly in the output panels.
-
-🔒 Privacy & Security
-Zero File Uploads: All processing is done locally in your browser. No data is ever sent to a server.
-
-No Data Collection: This platform contains no analytics, trackers, or external data collection.
-
-Open Source: The code is fully transparent and auditable.
-
-🛠️ Technology Stack
-HTML5, CSS3, JavaScript ES6
-
-EXIF.js for image metadata
-
-PDF.js for PDF parsing
-
-JSZip for Office document analysis
-
-Font Awesome & Google Fonts for icons and typography
-
-📄 License
-Distributed under the MIT License. See the LICENSE file in the GitHub repository for more information.
-
-Copyright (c) 2024 Nithisvaran M
-
-👨‍💻 Author
-Nithisvaran M
-
-GitHub: nithisvaran-m
-
-Live Project: https://nithisvaran-m.github.io/kumari-pro/
-
-🤝 Contributing
-Contributions, issues, and feature requests are welcome!
-
-Fork the project repository
-
-Create your feature branch (git checkout -b feature/AmazingFeature)
-
-Commit your changes (git commit -m 'Add some AmazingFeature')
-
-Push to the branch (git push origin feature/AmazingFeature)
-
-Open a Pull Request
-
-⭐ Support the Project
-If this tool helps you, please consider giving the repository a star on GitHub and sharing it with others.
-
-🙏 Acknowledgments
-The open-source libraries that make this possible (EXIF.js, PDF.js, JSZip)
-
-Font Awesome for the icon set
-
-The entire cybersecurity community for their constant learning and sharing
-
+# Open in browser
+open index.html        # macOS
+start index.html       # Windows
+xdg-open index.html    # Linux
