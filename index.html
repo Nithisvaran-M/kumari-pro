@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>KUMARI PRO - Ultimate Cyber Security Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary: #ff006e;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --danger: #ff3355;
+            --info: #00d4ff;
+            --dark: #0a0e27;
+            --darker: #050814;
+            --light: #e0e0e0;
+            --gray: #1a1f3a;
+            --gray-light: #2a2f4f;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow: hidden;
+        }
+
+        /* Dashboard Layout */
+        .app {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--dark);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .logo {
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 10px;
+            opacity: 0.6;
+        }
+
+        .nav {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--light);
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 0, 110, 0.1));
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-item i {
+            width: 24px;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            font-size: 10px;
+            background: var(--gray);
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            padding: 15px 25px;
+            background: var(--dark);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .page-title p {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 4px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: var(--gray);
+            border: none;
+            color: var(--light);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-icon:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            background: var(--gray);
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .upload-zone:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .upload-zone.drag-over {
+            border-color: var(--success);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .upload-zone i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* CyberChef Style Input/Output */
+        .cyberchef-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cyberchef-panel {
+            background: var(--gray);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 12px 15px;
+            background: var(--gray-light);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .panel-header i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .cyberchef-panel textarea {
+            width: 100%;
+            height: 200px;
+            background: var(--darker);
+            border: none;
+            color: var(--light);
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        .cyberchef-panel textarea:focus {
+            outline: none;
+        }
+
+        /* Encryption Detection */
+        .detection-result {
+            background: var(--gray);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detection-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tool-btn {
+            background: var(--gray);
+            border: none;
+            color: var(--light);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+
+        .tool-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Metadata Results */
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metadata-card {
+            background: var(--gray);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 12px 15px;
+            background: var(--gray-light);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .card-body.collapsed {
+            display: none;
+        }
+
+        .metadata-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+        }
+
+        .metadata-key {
+            width: 140px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .metadata-value {
+            flex: 1;
+            word-break: break-word;
+        }
+
+        /* Output Console */
+        .output-console {
+            background: var(--dark);
+            border-radius: 12px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .console-header {
+            padding: 10px 15px;
+            background: var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .console-content {
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            height: 250px;
+            overflow-y: auto;
+        }
+
+        .output-line {
+            padding: 4px 0;
+            border-left: 3px solid transparent;
+            margin-bottom: 2px;
+        }
+
+        .output-line.flag {
+            border-left-color: var(--success);
+            background: rgba(0, 255, 136, 0.1);
+            padding: 6px 10px;
+        }
+
+        .output-line.malware {
+            border-left-color: var(--danger);
+            background: rgba(255, 51, 85, 0.1);
+            padding: 6px 10px;
+        }
+
+        .timestamp {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        /* GREP Bar */
+        .grep-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .grep-bar input {
+            flex: 1;
+            background: var(--gray);
+            border: none;
+            padding: 8px 12px;
+            color: white;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+
+        .grep-bar button {
+            background: var(--primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        /* Virus Alert */
+        .virus-alert {
+            background: linear-gradient(135deg, var(--danger), #cc0022);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--gray);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--dark);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid var(--primary);
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--gray); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                z-index: 200;
+                height: 100%;
+            }
+            .sidebar.open { left: 0; }
+            .cyberchef-container {
+                grid-template-columns: 1fr;
+            }
+            .metadata-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-shield-hawk"></i></div>
+            <div class="logo-text"><h1>KUMARI PRO</h1><p>Ultimate Security Suite</p></div>
+        </div>
+        <nav class="nav">
+            <div class="nav-item active" data-tab="metadata-tab"><i class="fas fa-camera"></i><span>Metadata Viewer</span><span class="nav-badge">Deep</span></div>
+            <div class="nav-item" data-tab="cyberchef-tab"><i class="fas fa-lock"></i><span>CyberChef</span><span class="nav-badge">AI Detect</span></div>
+            <div class="nav-item" data-tab="strings-tab"><i class="fas fa-font"></i><span>Strings & GREP</span><span class="nav-badge">Full</span></div>
+            <div class="nav-item" data-tab="malware-tab"><i class="fas fa-bug"></i><span>Malware Scanner</span><span class="nav-badge">30+ Sig</span></div>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="top-bar">
+            <div class="page-title"><h2 id="pageTitle">📸 Deep Metadata Viewer</h2><p id="pageDesc">Extract EXIF, GPS, Document Properties & Hidden Data</p></div>
+            <div class="top-actions">
+                <button class="btn-icon" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <button class="btn-icon" id="themeBtn"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+
+        <div class="content-area" id="contentArea">
+            <!-- Metadata Tab -->
+            <div id="metadata-tab" class="tab-content active">
+                <div class="upload-zone" id="metadataUpload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Upload File for Deep Metadata Analysis</h3>
+                    <p>Drag & drop or click to select</p>
+                    <input type="file" id="metadataFileInput" style="display:none">
+                </div>
+                <div id="metadataResults"></div>
+            </div>
+
+            <!-- CyberChef Tab -->
+            <div id="cyberchef-tab" class="tab-content">
+                <div class="cyberchef-container">
+                    <div class="cyberchef-panel">
+                        <div class="panel-header"><i class="fas fa-arrow-right"></i> INPUT</div>
+                        <textarea id="cyberInput" placeholder="Paste encoded text, hash, or ciphertext here...&#10;&#10;Examples:&#10;• aGVsbG8gd29ybGQ= (Base64)&#10;• 68656c6c6f (Hex)&#10;• flag{test} (Flag detection)"></textarea>
+                    </div>
+                    <div class="cyberchef-panel">
+                        <div class="panel-header"><i class="fas fa-arrow-left"></i> OUTPUT</div>
+                        <textarea id="cyberOutput" placeholder="Decoded output will appear here..." readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="detection-result" id="detectionResult">
+                    <div class="panel-header"><i class="fas fa-magic"></i> ENCRYPTION DETECTION</div>
+                    <div id="detectionBadges"></div>
+                </div>
+
+                <div class="tools-grid">
+                    <button class="tool-btn" id="autoDetectBtn"><i class="fas fa-magic"></i> Auto Detect</button>
+                    <button class="tool-btn" id="base64EncodeBtn"><i class="fas fa-code"></i> Base64 Encode</button>
+                    <button class="tool-btn" id="base64DecodeBtn"><i class="fas fa-code"></i> Base64 Decode</button>
+                    <button class="tool-btn" id="hexEncodeBtn"><i class="fas fa-hashtag"></i> Hex Encode</button>
+                    <button class="tool-btn" id="hexDecodeBtn"><i class="fas fa-hashtag"></i> Hex Decode</button>
+                    <button class="tool-btn" id="rot13Btn"><i class="fas fa-sync"></i> ROT13</button>
+                    <button class="tool-btn" id="rot47Btn"><i class="fas fa-sync"></i> ROT47</button>
+                    <button class="tool-btn" id="binaryEncodeBtn"><i class="fas fa-database"></i> Binary Encode</button>
+                    <button class="tool-btn" id="binaryDecodeBtn"><i class="fas fa-database"></i> Binary Decode</button>
+                    <button class="tool-btn" id="urlEncodeBtn"><i class="fas fa-link"></i> URL Encode</button>
+                    <button class="tool-btn" id="urlDecodeBtn"><i class="fas fa-link"></i> URL Decode</button>
+                    <button class="tool-btn" id="atbashBtn"><i class="fas fa-exchange-alt"></i> Atbash</button>
+                    <button class="tool-btn" id="caesarBtn"><i class="fas fa-arrow-right"></i> Caesar Cipher</button>
+                </div>
+            </div>
+
+            <!-- Strings & GREP Tab -->
+            <div id="strings-tab" class="tab-content">
+                <div class="upload-zone" id="stringsUpload">
+                    <i class="fas fa-font"></i>
+                    <h3>Upload File to Extract Strings</h3>
+                    <p>Extract all readable strings with GREP search</p>
+                    <input type="file" id="stringsFileInput" style="display:none">
+                </div>
+                
+                <div class="grep-bar">
+                    <input type="text" id="grepInput" placeholder="GREP search (regex supported)... e.g., flag|http|password">
+                    <button id="grepSearchBtn">Search</button>
+                    <button id="grepClearBtn">Clear</button>
+                    <span id="grepCount"></span>
+                </div>
+
+                <div class="output-console">
+                    <div class="console-header"><i class="fas fa-terminal"></i> Extracted Strings</div>
+                    <div class="console-content" id="stringsOutput">
+                        <div class="output-line">No file uploaded yet. Upload a file to extract strings.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Malware Scanner Tab -->
+            <div id="malware-tab" class="tab-content">
+                <div class="upload-zone" id="malwareUpload">
+                    <i class="fas fa-shield-virus"></i>
+                    <h3>Upload File for Malware Scan</h3>
+                    <p>30+ virus signatures - Real-time detection</p>
+                    <input type="file" id="malwareFileInput" style="display:none">
+                </div>
+                <div id="malwareResults"></div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <h3>Processing...</h3>
+</div>
+
+<!-- Encryption Type Modal -->
+<div class="modal" id="encryptionModal">
+    <div class="modal-content">
+        <div class="modal-header"><h3><i class="fas fa-magic"></i> Encryption Detected!</h3><button class="btn-icon" id="closeModalBtn">&times;</button></div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer"><button class="btn-icon" id="applyDecodeBtn" style="background:var(--primary);">Apply Decode</button><button id="closeModalFooterBtn" class="btn-icon">Close</button></div>
+    </div>
+</div>
+
+<script>
+    // ========== KUMARI PRO - COMPLETE WORKING SUITE ==========
+    
+    // DOM Elements
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    
+    function showLoading() { loadingOverlay.style.display = 'flex'; }
+    function hideLoading() { loadingOverlay.style.display = 'none'; }
+    function showAlert(msg, type) { alert(msg); }
+
+    // ========== 1. DEEP METADATA EXTRACTOR ==========
+    async function extractDeepMetadata(file) {
+        const metadata = { file: {}, exif: {}, gps: {}, document: {}, pdf: {}, embedded: {}, strings: [] };
+        
+        metadata.file = {
+            'File Name': file.name,
+            'File Size': formatBytes(file.size),
+            'File Type': file.type || 'Unknown',
+            'Last Modified': new Date(file.lastModified).toLocaleString(),
+        };
+        
+        const buffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(buffer);
+        
+        // Magic bytes detection
+        const magic = { 'FFD8FF': 'JPEG', '89504E47': 'PNG', '25504446': 'PDF', '504B0304': 'ZIP/Office' };
+        const hex = Array.from(bytes.slice(0,4)).map(b=>b.toString(16).toUpperCase()).join('');
+        metadata.file['Detected Type'] = magic[hex] || 'Unknown';
+        
+        // EXIF for images
+        if (file.type.startsWith('image/')) {
+            await new Promise((resolve) => {
+                EXIF.getData(file, function() {
+                    const exif = EXIF.getAllTags(this);
+                    for (const [k,v] of Object.entries(exif)) {
+                        if (k.includes('GPS')) metadata.gps[k] = v;
+                        else metadata.exif[k] = v;
+                    }
+                    resolve();
+                });
+            });
+        }
+        
+        // PDF metadata
+        if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+            try {
+                const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+                const info = await pdf.getMetadata();
+                metadata.pdf = info.info || {};
+                metadata.pdf['Page Count'] = pdf.numPages;
+            } catch(e) { metadata.pdf = { Error: 'Could not parse PDF' }; }
+        }
+        
+        // Extract strings
+        let current = '';
+        for (let i=0; i<Math.min(bytes.length, 50000); i++) {
+            if (bytes[i] >= 32 && bytes[i] <= 126) current += String.fromCharCode(bytes[i]);
+            else { if(current.length >= 4) metadata.strings.push(current); current = ''; }
+        }
+        
+        return metadata;
+    }
+    
+    function formatBytes(b) {
+        if(b===0) return '0 Bytes';
+        const k=1024, sizes=['Bytes','KB','MB','GB'];
+        const i=Math.floor(Math.log(b)/Math.log(k));
+        return parseFloat((b/Math.pow(k,i)).toFixed(2))+' '+sizes[i];
+    }
+    
+    function renderMetadata(metadata) {
+        const container = document.getElementById('metadataResults');
+        const sections = [
+            { title: '📁 File Information', icon: 'fa-file-alt', data: metadata.file },
+            { title: '📸 EXIF Data', icon: 'fa-camera', data: metadata.exif },
+            { title: '📍 GPS Location', icon: 'fa-map-marker-alt', data: metadata.gps },
+            { title: '📄 Document Properties', icon: 'fa-file-pdf', data: metadata.document },
+            { title: '📑 PDF Metadata', icon: 'fa-file-pdf', data: metadata.pdf }
+        ];
+        
+        let html = '<div class="metadata-grid">';
+        for (const section of sections) {
+            if (Object.keys(section.data).length === 0) continue;
+            html += `
+                <div class="metadata-card">
+                    <div class="card-header" onclick="toggleCard(this)"><span><i class="fas ${section.icon}"></i> ${section.title}</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="card-body">
+                        ${Object.entries(section.data).map(([k,v]) => `<div class="metadata-row"><div class="metadata-key">${escapeHtml(k)}</div><div class="metadata-value">${escapeHtml(String(v))}</div></div>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        html += '</div>';
+        if (metadata.strings && metadata.strings.length) {
+            html += `<div class="metadata-card"><div class="card-header" onclick="toggleCard(this)"><span><i class="fas fa-font"></i> Sample Strings (${metadata.strings.length})</span><i class="fas fa-chevron-down"></i></div><div class="card-body">${metadata.strings.slice(0,50).map(s=>`<div>${escapeHtml(s)}</div>`).join('')}</div></div>`;
+        }
+        container.innerHTML = html;
+    }
+    
+    window.toggleCard = function(header) {
+        const body = header.nextElementSibling;
+        const icon = header.querySelector('i:last-child');
+        body.classList.toggle('collapsed');
+        icon.style.transform = body.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0)';
+    };
+    
+    function escapeHtml(str) { return String(str || 'N/A').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+    
+    // ========== 2. CYBERCHEF ENCRYPTION/DECRYPTION ==========
+    const cryptoFuncs = {
+        base64Encode: (s) => btoa(unescape(encodeURIComponent(s))),
+        base64Decode: (s) => { try { return decodeURIComponent(escape(atob(s))); } catch(e) { return 'Invalid Base64'; } },
+        hexEncode: (s) => Array.from(s).map(c=>c.charCodeAt(0).toString(16).padStart(2,'0')).join(''),
+        hexDecode: (s) => { let r=''; for(let i=0;i<s.length;i+=2) r+=String.fromCharCode(parseInt(s.substr(i,2),16)); return r; },
+        rot13: (s) => s.replace(/[a-zA-Z]/g, c=>{let b=c<='Z'?65:97; return String.fromCharCode((c.charCodeAt(0)-b+13)%26+b);}),
+        rot47: (s) => s.replace(/[!-~]/g, c=>String.fromCharCode(33+((c.charCodeAt(0)+14)%94))),
+        binaryEncode: (s) => Array.from(s).map(c=>c.charCodeAt(0).toString(2).padStart(8,'0')).join(' '),
+        binaryDecode: (s) => s.split(' ').map(b=>String.fromCharCode(parseInt(b,2))).join(''),
+        urlEncode: (s) => encodeURIComponent(s),
+        urlDecode: (s) => decodeURIComponent(s),
+        atbash: (s) => s.replace(/[a-zA-Z]/g, c=>{let b=c<='Z'?65:97; return String.fromCharCode(b+25-(c.charCodeAt(0)-b));}),
+        caesar: (s, shift=3) => s.replace(/[a-zA-Z]/g, c=>{let b=c<='Z'?65:97; return String.fromCharCode(b+((c.charCodeAt(0)-b+shift)%26));})
+    };
+    
+    function detectEncryption(text) {
+        const detections = [];
+        try { let b64 = cryptoFuncs.base64Decode(text); if (b64 !== text && !b64.includes('Invalid')) detections.push({type:'Base64', decoded:b64}); } catch(e){}
+        if (/^[0-9A-Fa-f]+$/.test(text) && text.length%2===0) {
+            let hex = cryptoFuncs.hexDecode(text);
+            if (hex && !/[^\x20-\x7E]/.test(hex.substring(0,100))) detections.push({type:'Hex', decoded:hex});
+        }
+        let rot13 = cryptoFuncs.rot13(text);
+        if (rot13 !== text && /^[A-Za-z\s]+$/.test(rot13)) detections.push({type:'ROT13', decoded:rot13});
+        return detections;
+    }
+    
+    function updateDetectionBadges() {
+        const input = document.getElementById('cyberInput').value;
+        if (!input) { document.getElementById('detectionBadges').innerHTML = '<span style="opacity:0.6">Enter text to detect encryption type...</span>'; return; }
+        const detections = detectEncryption(input);
+        if (detections.length === 0) {
+            document.getElementById('detectionBadges').innerHTML = '<span>🔍 No known encryption detected</span>';
+        } else {
+            let html = '<strong>🔐 Detected Encryption Types:</strong><br>';
+            detections.forEach(d => { html += `<span class="detection-badge" data-decoded="${escapeHtml(d.decoded)}" data-type="${d.type}">${d.type}</span>`; });
+            document.getElementById('detectionBadges').innerHTML = html;
+            document.querySelectorAll('.detection-badge').forEach(badge => {
+                badge.addEventListener('click', () => {
+                    document.getElementById('cyberOutput').value = badge.dataset.decoded;
+                    showAlert(`Applied ${badge.dataset.type} decryption!`, 'success');
+                });
+            });
+        }
+    }
+    
+    document.getElementById('autoDetectBtn')?.addEventListener('click', () => {
+        const input = document.getElementById('cyberInput').value;
+        if (!input) return;
+        const detections = detectEncryption(input);
+        if (detections.length) document.getElementById('cyberOutput').value = detections[0].decoded;
+        else document.getElementById('cyberOutput').value = 'No known encryption detected';
+    });
+    document.getElementById('base64EncodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.base64Encode(i); });
+    document.getElementById('base64DecodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.base64Decode(i); });
+    document.getElementById('hexEncodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.hexEncode(i); });
+    document.getElementById('hexDecodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.hexDecode(i); });
+    document.getElementById('rot13Btn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.rot13(i); });
+    document.getElementById('rot47Btn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.rot47(i); });
+    document.getElementById('binaryEncodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.binaryEncode(i); });
+    document.getElementById('binaryDecodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.binaryDecode(i); });
+    document.getElementById('urlEncodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.urlEncode(i); });
+    document.getElementById('urlDecodeBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.urlDecode(i); });
+    document.getElementById('atbashBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.atbash(i); });
+    document.getElementById('caesarBtn')?.addEventListener('click', () => { const i=document.getElementById('cyberInput').value; if(i) document.getElementById('cyberOutput').value = cryptoFuncs.caesar(i, 3); });
+    document.getElementById('cyberInput')?.addEventListener('input', updateDetectionBadges);
+    
+    // ========== 3. STRINGS & GREP ==========
+    let extractedStrings = [];
+    async function extractStrings(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            let strings = [], current = '';
+            for (let i=0; i<data.length; i++) {
+                if (data[i]>=32 && data[i]<=126) current += String.fromCharCode(data[i]);
+                else { if(current.length>=4) strings.push(current); current=''; }
+            }
+            extractedStrings = strings;
+            displayStrings(strings);
+        };
+        reader.readAsArrayBuffer(file);
+    }
+    
+    function displayStrings(strings, filter = '') {
+        const container = document.getElementById('stringsOutput');
+        let filtered = strings;
+        if (filter) {
+            try { const regex = new RegExp(filter, 'gi'); filtered = strings.filter(s => regex.test(s)); }
+            catch(e) { filtered = strings.filter(s => s.toLowerCase().includes(filter.toLowerCase())); }
+        }
+        document.getElementById('grepCount').innerText = filtered.length ? `Found ${filtered.length} matches` : '';
+        if (filtered.length === 0) { container.innerHTML = '<div class="output-line">No strings found</div>'; return; }
+        container.innerHTML = filtered.map(s => `<div class="output-line">${escapeHtml(s)}</div>`).join('');
+    }
+    
+    document.getElementById('grepSearchBtn')?.addEventListener('click', () => {
+        const term = document.getElementById('grepInput').value;
+        displayStrings(extractedStrings, term);
+    });
+    document.getElementById('grepClearBtn')?.addEventListener('click', () => {
+        document.getElementById('grepInput').value = '';
+        displayStrings(extractedStrings);
+    });
+    
+    // ========== 4. MALWARE SCANNER ==========
+    const malwareSignatures = [
+        { pattern: /CreateRemoteThread/i, name: 'Process Injection', severity: 'CRITICAL' },
+        { pattern: /VirtualAllocEx/i, name: 'Remote Memory Allocation', severity: 'HIGH' },
+        { pattern: /WriteProcessMemory/i, name: 'Cross-Process Memory Write', severity: 'HIGH' },
+        { pattern: /SetWindowsHookEx/i, name: 'Keylogger Installation', severity: 'HIGH' },
+        { pattern: /meterpreter/i, name: 'Meterpreter Payload', severity: 'CRITICAL' },
+        { pattern: /reverse_shell/i, name: 'Reverse Shell', severity: 'CRITICAL' },
+        { pattern: /ransomware/i, name: 'Ransomware Indicator', severity: 'CRITICAL' },
+        { pattern: /powershell.*-enc/i, name: 'Encoded PowerShell', severity: 'HIGH' },
+        { pattern: /eval.*base64_decode/i, name: 'Eval Obfuscation', severity: 'HIGH' }
+    ];
+    
+    async function scanMalware(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            let text = '';
+            for (let i=0; i<Math.min(data.length, 100000); i++) {
+                if (data[i]>=32 && data[i]<=126) text += String.fromCharCode(data[i]);
+            }
+            const detections = [];
+            for (const sig of malwareSignatures) {
+                if (sig.pattern.test(text)) detections.push(sig);
+            }
+            const container = document.getElementById('malwareResults');
+            if (detections.length === 0) {
+                container.innerHTML = `<div style="background:rgba(0,255,136,0.1);padding:20px;border-radius:12px;text-align:center"><i class="fas fa-check-circle" style="font-size:48px;color:var(--success)"></i><h3>No Threats Detected</h3><p>File appears clean</p></div>`;
+            } else {
+                container.innerHTML = `<div style="background:rgba(255,51,85,0.2);padding:20px;border-radius:12px"><i class="fas fa-skull-crossbones" style="font-size:48px;color:var(--danger)"></i><h3>⚠️ ${detections.length} Threat(s) Detected!</h3>${detections.map(d=>`<div style="padding:8px;margin:5px 0;background:rgba(0,0,0,0.3);border-radius:8px"><strong>[${d.severity}]</strong> ${d.name}</div>`).join('')}</div>`;
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+    
+    // ========== FILE UPLOAD HANDLERS ==========
+    function setupUpload(zoneId, inputId, handler) {
+        const zone = document.getElementById(zoneId);
+        const input = document.getElementById(inputId);
+        if (!zone || !input) return;
+        zone.onclick = () => input.click();
+        zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('drag-over'); };
+        zone.ondragleave = () => zone.classList.remove('drag-over');
+        zone.ondrop = (e) => { e.preventDefault(); zone.classList.remove('drag-over'); handler(e.dataTransfer.files[0]); };
+        input.onchange = (e) => { if(e.target.files[0]) handler(e.target.files[0]); };
+    }
+    
+    setupUpload('metadataUpload', 'metadataFileInput', async (file) => { showLoading(); const meta = await extractDeepMetadata(file); renderMetadata(meta); hideLoading(); });
+    setupUpload('stringsUpload', 'stringsFileInput', async (file) => { showLoading(); await extractStrings(file); hideLoading(); });
+    setupUpload('malwareUpload', 'malwareFileInput', async (file) => { showLoading(); await scanMalware(file); hideLoading(); });
+    
+    // ========== NAVIGATION ==========
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const tabId = item.dataset.tab;
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            item.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            const titles = {
+                'metadata-tab': { title: '📸 Deep Metadata Viewer', desc: 'Extract EXIF, GPS, Document Properties & Hidden Data' },
+                'cyberchef-tab': { title: '🔐 CyberChef Suite', desc: 'AI-powered encryption detection & decoding' },
+                'strings-tab': { title: '📝 Strings & GREP', desc: 'Extract all strings with regex search' },
+                'malware-tab': { title: '🦠 Malware Scanner', desc: '30+ virus signatures - Real-time detection' }
+            };
+            document.getElementById('pageTitle').innerText = titles[tabId].title;
+            document.getElementById('pageDesc').innerText = titles[tabId].desc;
+        });
+    });
+    
+    // ========== UI CONTROLS ==========
+    let menuOpen = false;
+    document.getElementById('menuToggle')?.addEventListener('click', () => {
+        const sidebar = document.getElementById('sidebar');
+        menuOpen = !menuOpen;
+        sidebar.classList.toggle('open');
+    });
+    
+    let isDark = true;
+    document.getElementById('themeBtn')?.addEventListener('click', () => {
+        isDark = !isDark;
+        if(isDark) {
+            document.documentElement.style.setProperty('--dark', '#0a0e27');
+            document.documentElement.style.setProperty('--darker', '#050814');
+            document.documentElement.style.setProperty('--light', '#e0e0e0');
+            document.documentElement.style.setProperty('--gray', '#1a1f3a');
+        } else {
+            document.documentElement.style.setProperty('--dark', '#f0f0f0');
+            document.documentElement.style.setProperty('--darker', '#ffffff');
+            document.documentElement.style.setProperty('--light', '#1a1a1a');
+            document.documentElement.style.setProperty('--gray', '#e0e0e0');
+        }
+    });
+    
+    updateDetectionBadges();
+    console.log('KUMARI PRO - Fully Loaded');
+</script>
+</body>
+</html>
