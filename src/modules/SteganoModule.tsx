@@ -137,6 +137,11 @@ const SteganoModule: React.FC = () => {
               {image ? (
                 <>
                   <img src={processedImage || image} alt="Carrier" className="w-full h-full object-contain" />
+                  {/* Digital HUD Overlay on image */}
+                  <div className="absolute inset-0 pointer-events-none border border-cyan-500/10 mix-blend-overlay">
+                    <div className="absolute top-2 left-2 text-[8px] text-cyan-500 font-mono">SCANNING_CHANNEL_LSB...</div>
+                    <div className="absolute bottom-2 right-2 text-[8px] text-purple-500 font-mono">RGBA_BUFFER_READY</div>
+                  </div>
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                     <label className="p-4 bg-white/10 hover:bg-white/20 rounded-2xl cursor-pointer backdrop-blur-xl border border-white/10 transition-all">
                       <RefreshCcw size={24} />

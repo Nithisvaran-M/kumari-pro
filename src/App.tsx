@@ -18,16 +18,55 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('metadata');
   const [showNotepad, setShowNotepad] = useState(false);
   const [note, setNote] = useState('');
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const savedNote = localStorage.getItem('kumari_quick_note');
-    if (savedNote) setNote(savedNote);
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const savedNote = localStorage.getItem('kumari_quick_note');
+      if (savedNote) setNote(savedNote);
+    } catch (e) {
+      console.warn("Storage access denied");
+    }
   }, []);
 
   const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNote(e.target.value);
-    localStorage.setItem('kumari_quick_note', e.target.value);
+    try {
+      localStorage.setItem('kumari_quick_note', e.target.value);
+    } catch (err) {
+      // Ignore storage errors
+    }
   };
+
+  if (hasError) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center text-red-500 p-10 font-mono">
+        <div>
+          <h1 className="text-2xl font-black mb-4 uppercase tracking-tighter text-glow">System Critical Error</h1>
+          <p className="text-xs text-gray-500 mb-8">Quantum bitstream corruption detected. Kernel panic.</p>
+          <button onClick={() => window.location.reload()} className="px-6 py-2 bg-red-600 text-white rounded-lg font-bold">REBOOT SYSTEM</button>
+        </div>
+      </div>
+    );
+  }
+
+  // Basic Error Boundary
+  useEffect(() => {
+    const handleError = (error: ErrorEvent) => {
+      console.error(error);
+      setHasError(true);
+    };
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
+
 
   const navItems = [
     { id: 'metadata', icon: FileSearch, label: 'EXIF & GREP' },
@@ -35,6 +74,26 @@ const App: React.FC = () => {
     { id: 'custom-algo', icon: Cpu, label: 'FORGE' },
     { id: 'stegano', icon: Ghost, label: 'RGBA STEGO' },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center font-mono">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          className="w-24 h-24 border-t-2 border-r-2 border-cyan-500 rounded-full mb-8 shadow-[0_0_30px_rgba(6,182,212,0.2)]"
+        />
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="text-cyan-500 text-[10px] tracking-[0.5em] font-black uppercase"
+        >
+          Initializing Kumari Core...
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-mono selection:bg-cyan-500/50 overflow-hidden relative">
@@ -63,8 +122,8 @@ const App: React.FC = () => {
             >
               <item.icon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
             </button>
-            <div className={`absolute left-full ml-4 px-3 py-1.5 bg-cyan-500 text-black text-[10px] font-black rounded shadow-xl pointer-events-none transition-all duration-300 uppercase tracking-[0.2em] whitespace-nowrap ${
-              activeTab === item.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+            <div className={`absolute left-full ml-4 px-3 py-1.5 bg-cyan-500 text-black text-[10px] font-black rounded shadow-xl pointer-events-none transition-all duration-300 uppercase tracking-[0.2em] whitespace-nowrap z-[60] ${
+              activeTab === item.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
             }`}>
               {item.label}
               <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-500 rotate-45" />

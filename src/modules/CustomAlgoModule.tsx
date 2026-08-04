@@ -200,7 +200,7 @@ return encrypt(data);`);
                         <Reorder.Item key={step.id} value={step}>
                           <div className="relative group">
                             {index > 0 && (
-                              <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-orange-900/40 z-10">
+                              <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-orange-500/20 z-10 animate-pulse">
                                 <ArrowDown size={14} />
                               </div>
                             )}

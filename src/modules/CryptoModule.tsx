@@ -35,15 +35,16 @@ const CryptoModule: React.FC = () => {
 
       // Hex Check
       const hexClean = cleanInput.replace(/\s/g, '');
-      if (/^[0-9a-fA-F]+$/.test(hexClean) && hexClean.length % 2 === 0) {
+      if (/^[0-9a-fA-F]+$/.test(hexClean) && hexClean.length >= 4 && hexClean.length % 2 === 0) {
         try {
           let str = '';
           for (let i = 0; i < hexClean.length; i += 2) {
             const charCode = parseInt(hexClean.substr(i, 2), 16);
-            if (charCode < 32 || charCode > 126) throw new Error("Binary");
+            // Allow printable ASCII plus newlines and tabs
+            if ((charCode < 32 || charCode > 126) && charCode !== 10 && charCode !== 13 && charCode !== 9) throw new Error("Binary");
             str += String.fromCharCode(charCode);
           }
-          if (str.length > 2) {
+          if (str.length >= 2) {
             setMethod('Hex');
             setIsEncrypt(false);
             setOutput(str);
