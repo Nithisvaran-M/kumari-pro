@@ -1,96 +1,14 @@
-# 🛡️ KUMARI
+# KUMARI | Advanced Cyber Suite
 
-## Ultimate Cyber Security Suite
+Ultimate Cyber Security Suite - Metadata Viewer, CyberChef, Magic Decryption, RGBA Steganography, and Custom Algo Forge.
 
-# ✨ 𝐊𝐔𝐌𝐀𝐑𝐈 𝐏𝐑𝐎 ✨
-### ░▒▓█ ► Advanced Cyber Toolkit ◄ █▓▒░
+## 🚀 Deployment Instructions (Easiest Method)
 
-### Professional Cyber Security Suite • v2.0.0
+To host this project on GitHub Pages without any errors:
 
-**Deep Metadata Extraction | AI-Powered CyberChef | Malware Scanner | Strings & GREP**
+1. **Build locally**: Run `npm run build`.
+2. **Copy the file**: Take the `index.html` file inside the `dist/` folder.
+3. **Host**: Upload only that one `index.html` to a new repository or a branch named `gh-pages`.
+4. **Settings**: In GitHub Settings > Pages, select the branch you uploaded to and it will work instantly.
 
----
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Pages](https://img.shields.io/badge/Hosted-GitHub%20Pages-blue)](https://pages.github.com/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)](https://javascript.com)
-[![Version](https://img.shields.io/badge/version-2.0.0-green)]()
-
----
-
-## 🚀 Quick Start
-
-**Live Website:** [https://nithisvaran-m.github.io/kumari-pro/](https://nithisvaran-m.github.io/kumari-pro/)
-
-No installation required. No file uploads to any server. Everything runs locally in your browser.
-
----
-
-
-
-## ✨ Core Features
-
-### 1. 📸 Deep Metadata Viewer
-
-Extract every piece of hidden information from your files:
-
-| Category | Information Extracted |
-|----------|----------------------|
-| **Image Metadata** | Camera model, ISO, shutter speed, focal length, aperture, flash |
-| **GPS Location** | Latitude, longitude, altitude, timestamp |
-| **PDF Properties** | Author, creator, producer, page count, creation date |
-| **Document Info** | File size, type, modification date, software used |
-| **Magic Bytes** | Identifies real file type regardless of extension |
-| **Hidden Strings** | Extracts readable text hidden inside binary files |
-
-### 2. 🔐 CyberChef Encryption Suite
-
-AI-powered encryption detection and decoding:
-
-| Feature | Description |
-|---------|-------------|
-| **Auto Detection** | Automatically identifies Base64, Hex, and ROT13 encoding |
-| **Interactive Badges** | Click detected encryption type to apply decryption instantly |
-| **20+ Formats** | Base64, Hex, ROT13, ROT47, Binary, URL, Atbash, Caesar Cipher |
-| **Real-time Analysis** | Detection updates as you type or paste text |
-| **One-click Operations** | Encode or decode with single button clicks |
-
-### 3. 📝 Strings Extractor with GREP
-
-Extract and search through all readable text in any file:
-
-| Feature | Description |
-|---------|-------------|
-| **Full Extraction** | Finds every readable string of 4 or more characters |
-| **GREP Search** | Powerful regex-based searching through extracted strings |
-| **Real-time Filtering** | Search results update as you type |
-| **Match Counter** | Shows number of matches found instantly |
-| **Copy Results** | Export all extracted strings to clipboard |
-
-### 4. 🦠 Malware Signature Scanner
-
-Real-time malware detection with 30+ signatures:
-
-| Severity | Signatures Detected |
-|----------|---------------------|
-| **CRITICAL** | Process Injection, Meterpreter Payload, Ransomware, Reverse Shell |
-| **HIGH** | Keylogger Installation, Remote Memory Allocation, Encoded PowerShell |
-| **MEDIUM** | Suspicious Patterns, Obfuscated Code, Registry Modifications |
-
----
-
-## 🛠 Installation
-
-### Local Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/nithisvaran-m/kumari-pro.git
-
-# Navigate to project
-cd kumari-pro
-
-# Open in browser
-open index.html        # macOS
-start index.html       # Windows
-xdg-open index.html    # Linux
+Everything is inlined into one single file for maximum portability.
