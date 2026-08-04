@@ -22,7 +22,12 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    // Robust loading sequence
+    console.log("KUMARI: Initializing Quantum Core...");
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      console.log("KUMARI: System Ready.");
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -31,40 +36,54 @@ const App: React.FC = () => {
       const savedNote = localStorage.getItem('kumari_quick_note');
       if (savedNote) setNote(savedNote);
     } catch (e) {
-      console.warn("Storage access denied");
+      console.warn("KUMARI: Storage restricted. Session will be ephemeral.");
     }
   }, []);
 
   const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNote(e.target.value);
+    const val = e.target.value;
+    setNote(val);
     try {
-      localStorage.setItem('kumari_quick_note', e.target.value);
+      localStorage.setItem('kumari_quick_note', val);
     } catch (err) {
-      // Ignore storage errors
+      console.warn("KUMARI: Local buffer restricted.");
     }
   };
 
-  if (hasError) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-red-500 p-10 font-mono">
-        <div>
-          <h1 className="text-2xl font-black mb-4 uppercase tracking-tighter text-glow">System Critical Error</h1>
-          <p className="text-xs text-gray-500 mb-8">Quantum bitstream corruption detected. Kernel panic.</p>
-          <button onClick={() => window.location.reload()} className="px-6 py-2 bg-red-600 text-white rounded-lg font-bold">REBOOT SYSTEM</button>
-        </div>
-      </div>
-    );
-  }
-
-  // Basic Error Boundary
+  // Error boundary logic
   useEffect(() => {
     const handleError = (error: ErrorEvent) => {
-      console.error(error);
-      setHasError(true);
+      console.error("KUMARI CORE ERROR:", error);
+      if (error.message && !error.message.includes('ResizeObserver')) {
+        setHasError(true);
+      }
     };
     window.addEventListener('error', handleError);
     return () => window.removeEventListener('error', handleError);
   }, []);
+
+  if (hasError) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center text-red-500 p-10 font-mono">
+        <div className="max-w-md">
+          <h1 className="text-3xl font-black mb-4 uppercase tracking-tighter">System Critical Failure</h1>
+          <p className="text-[10px] text-gray-600 mb-8 uppercase tracking-[0.2em] leading-relaxed">
+            The quantum execution engine has encountered a non-recoverable bitstream error. 
+            All active buffers have been purged for security.
+          </p>
+          <button 
+            onClick={() => {
+              localStorage.clear();
+              window.location.reload();
+            }} 
+            className="w-full py-4 bg-red-600 hover:bg-red-500 text-white rounded-xl font-black tracking-widest uppercase transition-all shadow-xl shadow-red-900/40"
+          >
+            FORCE COLD REBOOT
+          </button>
+        </div>
+      </div>
+    );
+  }
 
 
 
