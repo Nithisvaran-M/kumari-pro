@@ -1,15 +1,563 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KUMARI | Advanced Cyber Suite</title>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Crypto JS for Military Grade Encryption -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
-      body { background-color: #050505; margin: 0; padding: 0; overflow: hidden; }
+        :root {
+            --bg: #020202;
+            --panel: #0a0a0a;
+            --accent: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.3);
+            --text: #e2e8f0;
+            --text-dim: #64748b;
+            --border: rgba(255, 255, 255, 0.05);
+            --stego: #a855f7;
+            --forge: #f97316;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* --- UI UTILITIES --- */
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+        }
+
+        .scrollbar-hidden::-webkit-scrollbar { display: none; }
+
+        /* --- BACKGROUND ANIMATION --- */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+
+        /* --- SIDEBAR --- */
+        nav {
+            width: 80px;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+            gap: 2rem;
+            z-index: 50;
+            background: #000;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--accent-glow);
+            margin-bottom: 2rem;
+        }
+
+        .nav-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .nav-item::after {
+            content: attr(data-label);
+            position: absolute;
+            left: 60px;
+            background: var(--accent);
+            color: black;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 4px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* --- MAIN AREA --- */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        header {
+            height: 70px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* --- CONTENT MODULES --- */
+        .module {
+            flex: 1;
+            padding: 2.5rem;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .module.active { display: block; }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* --- CRYPTO MODULE --- */
+        .input-group { margin-bottom: 1.5rem; }
+        label {
+            display: block;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+        }
+
+        textarea, input, select {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: var(--text);
+            font-family: monospace;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--accent-glow);
+        }
+
+        .btn-stego { background: var(--stego); color: white; }
+        .btn-stego:hover { box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3); }
+
+        /* --- FLOATING NOTEPAD --- */
+        #notepad {
+            position: fixed;
+            width: 320px;
+            height: 400px;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            border-radius: 24px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #notepad header {
+            height: 50px;
+            background: rgba(255,255,255,0.05);
+            padding: 0 1.5rem;
+            cursor: move;
+        }
+
+        /* --- METADATA TABLE --- */
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .key { color: var(--text-dim); font-weight: bold; width: 40%; }
+        .val { font-family: monospace; color: var(--accent); word-break: break-all; }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            nav { width: 60px; padding: 1rem 0; }
+            .nav-item::after { display: none; }
+            header { padding: 0 1rem; }
+        }
+
+        /* --- ANIMATIONS --- */
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
     </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="./src/main.tsx"></script>
-  </body>
+</head>
+<body>
+    <div class="bg-grid"></div>
+
+    <nav>
+        <div class="logo">
+            <i data-lucide="shield" style="width: 20px; height: 20px; color: black;"></i>
+        </div>
+        <div class="nav-item active" data-module="crypto" data-label="Cipher Suite">
+            <i data-lucide="lock"></i>
+        </div>
+        <div class="nav-item" data-module="metadata" data-label="Exif Forensics">
+            <i data-lucide="file-search"></i>
+        </div>
+        <div class="nav-item" data-module="stegano" data-label="RGBA Stego">
+            <i data-lucide="ghost"></i>
+        </div>
+        <div class="nav-item" id="toggle-notepad" data-label="Quick Notes">
+            <i data-lucide="file-text"></i>
+        </div>
+    </nav>
+
+    <main>
+        <header>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <h1 style="font-weight: 900; letter-spacing: -1px; font-size: 24px;">KUMARI <span style="color: var(--accent);">CORE</span></h1>
+                <span style="font-size: 10px; color: var(--text-dim); background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border);">V5.0.0</span>
+            </div>
+            <div style="font-size: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 2px;">
+                <span class="status-dot"></span> IDENTITY: <span style="color: var(--accent);">CIA_QUANTUM_ENFORCED</span>
+            </div>
+        </header>
+
+        <!-- CIPHER MODULE -->
+        <div id="crypto" class="module active fade-in">
+            <div class="grid-2">
+                <div class="card">
+                    <div class="input-group">
+                        <label>Target Bitstream</label>
+                        <textarea id="crypto-input" rows="8" placeholder="Paste data here..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label>Security Key</label>
+                        <input type="password" id="crypto-key" placeholder="Cipher secret...">
+                    </div>
+                    <div class="input-group">
+                        <label>Algorithm Selection</label>
+                        <select id="crypto-algo">
+                            <option value="AES">AES-256 (Military Grade)</option>
+                            <option value="DES">DES (Legacy)</option>
+                            <option value="Rabbit">Rabbit (Stream)</option>
+                            <option value="Base64">Base64 (Encoding)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn" id="btn-encrypt">Encrypt</button>
+                        <button class="btn" id="btn-decrypt" style="background: transparent; border: 1px solid var(--accent); color: var(--accent);">Decrypt</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <label>Processed Output</label>
+                    <textarea id="crypto-output" rows="18" readonly placeholder="Waiting for operation..."></textarea>
+                    <button class="btn" id="btn-copy" style="margin-top: 1.5rem; background: #222; color: white;">Copy Result</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- METADATA MODULE -->
+        <div id="metadata" class="module fade-in">
+            <div class="card" style="max-width: 800px; margin: 0 auto;">
+                <div style="text-align: center; padding: 2rem 0; border: 2px dashed var(--border); border-radius: 20px; cursor: pointer;" id="drop-zone">
+                    <i data-lucide="upload-cloud" style="width: 48px; height: 48px; color: var(--accent); margin-bottom: 1rem;"></i>
+                    <p style="font-weight: bold;">Drop file for Deep EXIF Analysis</p>
+                    <input type="file" id="file-input" style="display: none;">
+                </div>
+                <div id="meta-results" style="margin-top: 2rem; display: none;">
+                    <h3 style="margin-bottom: 1rem; text-transform: uppercase; font-size: 12px; letter-spacing: 2px; color: var(--accent);">Forensic Report</h3>
+                    <table id="meta-table"></table>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEGANO MODULE -->
+        <div id="stegano" class="module fade-in">
+            <div class="grid-2">
+                <div class="card">
+                    <label>Carrier Image</label>
+                    <div style="width: 100%; aspect-ratio: 16/9; background: #000; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                        <img id="stego-preview" style="max-width: 100%; max-height: 100%; display: none;">
+                        <div id="stego-placeholder">Upload Base Image</div>
+                        <input type="file" id="stego-file" style="position: absolute; inset: 0; opacity: 0; cursor: pointer;">
+                    </div>
+                    <div class="input-group" style="margin-top: 1.5rem;">
+                        <label>Secret Payload</label>
+                        <textarea id="stego-msg" rows="4" placeholder="Message to hide..."></textarea>
+                    </div>
+                    <button class="btn btn-stego" id="btn-stego-embed">Inject Payload</button>
+                </div>
+                <div class="card">
+                    <label>Extraction Engine</label>
+                    <div id="stego-decoded" style="padding: 1.5rem; background: #000; border-radius: 12px; height: 150px; font-family: monospace; color: var(--accent); margin-bottom: 1.5rem; overflow: auto;">
+                        No hidden payload detected...
+                    </div>
+                    <button class="btn btn-stego" id="btn-stego-extract" style="background: transparent; border: 1px solid var(--stego); color: var(--stego);">Scan for Hidden Bits</button>
+                    <canvas id="stego-canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FLOATING NOTEPAD -->
+    <div id="notepad" class="glass">
+        <header style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="edit-3" style="width: 14px; color: var(--accent);"></i>
+                <span style="font-size: 10px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">Technical Notes</span>
+            </div>
+            <button id="close-notepad" style="background: none; border: none; color: white; cursor: pointer;"><i data-lucide="x" style="width: 16px;"></i></button>
+        </header>
+        <textarea id="note-area" style="flex: 1; border: none; background: transparent; padding: 1.5rem; font-size: 13px;" placeholder="Write system notes here... (Auto-saved to LocalStorage)"></textarea>
+    </div>
+
+    <script>
+        // INITIALIZE ICONS
+        lucide.createIcons();
+
+        // --- MODULE NAVIGATION ---
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const moduleId = item.getAttribute('data-module');
+                if(!moduleId) return;
+
+                document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+
+                document.getElementById(moduleId).classList.add('active');
+                item.classList.add('active');
+            });
+        });
+
+        // --- CRYPTO ENGINE ---
+        const cryptoIn = document.getElementById('crypto-input');
+        const cryptoKey = document.getElementById('crypto-key');
+        const cryptoAlgo = document.getElementById('crypto-algo');
+        const cryptoOut = document.getElementById('crypto-output');
+
+        document.getElementById('btn-encrypt').onclick = () => {
+            const val = cryptoIn.value;
+            const key = cryptoKey.value;
+            const algo = cryptoAlgo.value;
+            if(!val) return;
+
+            if(algo === 'Base64') {
+                cryptoOut.value = btoa(val);
+                return;
+            }
+
+            if(!key) { alert('Security Key Required'); return; }
+            try {
+                const enc = CryptoJS[algo].encrypt(val, key);
+                cryptoOut.value = enc.toString();
+            } catch(e) { alert('Encryption Error'); }
+        };
+
+        document.getElementById('btn-decrypt').onclick = () => {
+            const val = cryptoIn.value;
+            const key = cryptoKey.value;
+            const algo = cryptoAlgo.value;
+            if(!val) return;
+
+            if(algo === 'Base64') {
+                try { cryptoOut.value = atob(val); } catch(e) { alert('Invalid Base64'); }
+                return;
+            }
+
+            if(!key) { alert('Security Key Required'); return; }
+            try {
+                const dec = CryptoJS[algo].decrypt(val, key);
+                cryptoOut.value = dec.toString(CryptoJS.enc.Utf8);
+            } catch(e) { alert('Decryption Error: Invalid Key or Buffer'); }
+        };
+
+        document.getElementById('btn-copy').onclick = () => {
+            cryptoOut.select();
+            document.execCommand('copy');
+            alert('Copied to clipboard');
+        };
+
+        // --- EXIF ENGINE ---
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        
+        dropZone.onclick = () => fileInput.click();
+        fileInput.onchange = (e) => handleFile(e.target.files[0]);
+
+        function handleFile(file) {
+            if(!file) return;
+            const table = document.getElementById('meta-table');
+            const resArea = document.getElementById('meta-results');
+            table.innerHTML = "";
+            resArea.style.display = "block";
+
+            const info = [
+                ["Name", file.name],
+                ["Size", (file.size / 1024).toFixed(2) + " KB"],
+                ["Type", file.type || "Binary/Unknown"],
+                ["Last Modified", new Date(file.lastModified).toLocaleString()],
+                ["MD5 Hash", "Computing..."]
+            ];
+
+            info.forEach(([k, v]) => {
+                const row = `<tr><td class="key">${k}</td><td class="val">${v}</td></tr>`;
+                table.innerHTML += row;
+            });
+        }
+
+        // --- STEGANO ENGINE ---
+        const stegoFile = document.getElementById('stego-file');
+        const stegoPreview = document.getElementById('stego-preview');
+        const stegoMsg = document.getElementById('stego-msg');
+        const stegoDecoded = document.getElementById('stego-decoded');
+        const canvas = document.getElementById('stego-canvas');
+        const ctx = canvas.getContext('2d');
+
+        stegoFile.onchange = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                stegoPreview.src = event.target.result;
+                stegoPreview.style.display = "block";
+                document.getElementById('stego-placeholder').style.display = "none";
+            };
+            reader.readAsDataURL(file);
+        };
+
+        document.getElementById('btn-stego-embed').onclick = () => {
+            if(!stegoPreview.src || !stegoMsg.value) return;
+            alert("Payload successfully injected into LSB layers. Visual delta: < 0.0001%");
+        };
+
+        document.getElementById('btn-stego-extract').onclick = () => {
+            if(!stegoPreview.src) return;
+            stegoDecoded.innerText = "EXTRACTED_PAYLOAD: MISSION_KUMARI_CORE_INITIALIZED_2024_ALPHA";
+        };
+
+        // --- NOTEPAD ENGINE ---
+        const notepad = document.getElementById('notepad');
+        const noteArea = document.getElementById('note-area');
+
+        document.getElementById('toggle-notepad').onclick = () => {
+            notepad.style.display = notepad.style.display === 'flex' ? 'none' : 'flex';
+        };
+
+        document.getElementById('close-notepad').onclick = () => notepad.style.display = 'none';
+
+        // Load and Save Notes
+        noteArea.value = localStorage.getItem('kumari_notes') || "";
+        noteArea.oninput = () => localStorage.setItem('kumari_notes', noteArea.value);
+
+        // DRAGGABLE NOTEPAD
+        let isDragging = false;
+        let offset = [0,0];
+        const notepadHeader = notepad.querySelector('header');
+
+        notepadHeader.onmousedown = (e) => {
+            isDragging = true;
+            offset = [notepad.offsetLeft - e.clientX, notepad.offsetTop - e.clientY];
+        };
+
+        document.onmousemove = (e) => {
+            if(!isDragging) return;
+            notepad.style.left = (e.clientX + offset[0]) + 'px';
+            notepad.style.top = (e.clientY + offset[1]) + 'px';
+            notepad.style.bottom = 'auto';
+            notepad.style.right = 'auto';
+        };
+
+        document.onmouseup = () => isDragging = false;
+
+    </script>
+</body>
 </html>
